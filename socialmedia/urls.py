@@ -16,11 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from postengagement.views import SignUpView
+from postengagement.views import SignUpView,PostCreateListView,PostRetrieveView,PostDeleteView,CommentCreateView,LikeCreateView
 from rest_framework.authtoken.views  import ObtainAuthToken
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/',SignUpView.as_view()),
     path('token/',ObtainAuthToken.as_view()),
+    path('post/',PostCreateListView.as_view()),
+    path('post/<int:pk>/',PostRetrieveView.as_view()),
+    path('post/<int:pk>/remove/',PostDeleteView.as_view()),
+    path('post/<int:pk>/add-comment/',CommentCreateView.as_view()),
+    path('post/<int:pk>/like/',LikeCreateView.as_view()),
+
 ]
