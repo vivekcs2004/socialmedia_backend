@@ -16,6 +16,8 @@ class PostSerializer(serializers.ModelSerializer):
 
     user = serializers.StringRelatedField(read_only = True)
     comments = serializers.SerializerMethodField(read_only = True)
+    like_count = serializers.SerializerMethodField(read_only = True)
+    comment_count = serializers.SerializerMethodField(read_only = True)
     class Meta:
 
         model = Post
@@ -31,6 +33,14 @@ class PostSerializer(serializers.ModelSerializer):
         serializer_instance = CommentSerializer(message,many=True)
 
         return serializer_instance.data  
+
+    def get_like_count(self,object):
+
+        return Like.objects.filter(post=object).count()
+    
+    def get_comment_count(self,object):
+
+        return Comment.objects.filter(post=object).count()
     
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only = True)
@@ -52,3 +62,6 @@ class LikeSerializer(serializers.ModelSerializer):
 
         read_only_fields = ["id","created_at","user"]
 
+
+    
+        

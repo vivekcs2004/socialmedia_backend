@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
 from rest_framework.generics import ListCreateAPIView,CreateAPIView,RetrieveAPIView,DestroyAPIView
-from rest_framework import authentication,permissions
+from rest_framework import authentication,permissions,serializers
 from  postengagement.serializers import UserSerializer,PostSerializer,CommentSerializer,LikeSerializer
-from postengagement.models import Post
+from postengagement.models import Post,Like
 from postengagement.permissions import IsOwner
 class SignUpView(CreateAPIView):
 
@@ -71,8 +71,12 @@ class LikeCreateView(CreateAPIView):
         
         id = self.kwargs.get("pk")
 
-        poll_instance = Post.objects.get(id=id)
+        post_instance = Post.objects.get(id=id)
 
-        serializer.save(post = poll_instance,user = self.request.user)
+
+        if Like.objects.filter(user=self.request.user, post=post_instance).exists():
+            raise serializers.ValidationError("You already liked this post.")
+
+        serializer.save(post = post_instance,user = self.request.user)
 
         

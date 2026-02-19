@@ -60,12 +60,12 @@ Content-Type: application/json
 Authorization: Token ac533208737d446b0357b6b27a6284b32721690b
 
 {
-    "message":"very nice"
+    "message":"cool"
 }
 
 #like
 ###
-POST http://127.0.0.1:8000/post/2/like/
+POST http://127.0.0.1:8000/post/8/like/
 Content-Type: application/json
 Authorization: Token ac533208737d446b0357b6b27a6284b32721690b
 
